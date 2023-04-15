@@ -1,7 +1,7 @@
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html';
 
-import 'package:ekin_app/Product/Widgets/VoiceWidgets/RecordAudio/record_audio_vm.dart';
+import 'package:ekin_app/Product/Widgets/VoiceWidgets/isnt_use/record_audio_vm.dart';
 
 PlatformLocation get createAdapter => WebPlatformLocation();
 

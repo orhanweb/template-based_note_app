@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:ekin_app/Home/ViewModel/NewRegCubit/new_reg_cubit.dart';
-import 'package:ekin_app/Product/Widgets/VoiceWidgets/RecordAudio/record_audio_view.dart';
+import 'package:ekin_app/Product/Widgets/VoiceWidgets/record_audio_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sound/flutter_sound.dart';
@@ -89,10 +89,10 @@ mixin RecordAudioMixin on State<RecordAudioWidget> {
         _timer?.cancel();
       });
       if (mounted) {
-        context.read<NewRegCubit>().addAudioPlayerWidget(
-            indexinList: widget.indexinList,
-            audioPath: _recordedFilePath,
-            audioDuration: elapsedSeconds);
+        // context.read<NewRegCubit>().addAudioPlayerWidget(
+        //     indexinList: widget.indexinList,
+        //     audioPath: _recordedFilePath,
+        //     audioDuration: elapsedSeconds);
       }
     } catch (e) {
       log('Error: $e');

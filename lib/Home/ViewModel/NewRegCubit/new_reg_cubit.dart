@@ -7,9 +7,10 @@ import 'package:ekin_app/Product/Widgets/ImageWidgets/Camera_Widget/camera_view.
 import 'package:ekin_app/Product/Widgets/ImageWidgets/show_image_view_for_web.dart';
 import 'package:ekin_app/Product/Widgets/ImageWidgets/show_image_view_for_mobile.dart';
 import 'package:ekin_app/Product/Widgets/TextInputWidget/text_input_widget.dart';
-import 'package:ekin_app/Product/Widgets/VoiceWidgets/RecordAudio/record_audio_view.dart';
+import 'package:ekin_app/Product/Widgets/VoiceWidgets/newaudio.dart';
+import 'package:ekin_app/Product/Widgets/VoiceWidgets/record_audio_view.dart';
 import 'package:ekin_app/Product/Widgets/VoiceWidgets/audio_player_view.dart';
-import 'package:ekin_app/Product/Widgets/VoiceWidgets/newRecorder/recorder.dart';
+import 'package:ekin_app/Product/Widgets/VoiceWidgets/sound_base.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kartal/kartal.dart';
 
@@ -35,8 +36,8 @@ class NewRegCubit extends Cubit<List<NewRegModel>> {
     state.add(NewRegModel(
         indexinList: state.length,
         widgetType: WhichWidget.voiceRecorder,
-        widget: NewRecorder(
-          indexInList: state.length,
+        widget: RecordAudioWidget(
+          indexinList: state.length,
         )));
     final newState = List<NewRegModel>.from(state);
     emit(newState);
@@ -44,20 +45,18 @@ class NewRegCubit extends Cubit<List<NewRegModel>> {
 
   // Add Audio Player to New Reg List
   void addAudioPlayerWidget(
-      {String? audioPath,
-      required int indexinList,
-      required int audioDuration}) {
-    if (audioPath == null && audioPath.isNullOrEmpty) return;
+      {required int indexinList, required Uint8List audioBytes}) {
+    if (audioBytes.isNullOrEmpty) return;
     state.removeAt(indexinList);
     state.insert(
         indexinList,
         NewRegModel(
           indexinList: indexinList,
           widgetType: WhichWidget.audioPlayer,
-          widget: AudioPlayerView(
-              audioPath: audioPath!,
-              indexinList: indexinList,
-              audioDuration: audioDuration),
+          widget: AudioPlayerWidget(
+            audioData: audioBytes,
+            indexInList: indexinList,
+          ),
         ));
 
     final newState = List<NewRegModel>.from(state);
