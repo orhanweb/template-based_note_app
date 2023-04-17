@@ -6,99 +6,6 @@ import 'dart:typed_data';
 import 'package:ekin_app/Core/Constants/duration_const.dart';
 import 'package:flutter/services.dart';
 
-class AudioPlayer {
-  AudioPlayer() {
-    _audioPlayerChannel.setMethodCallHandler(_audioPlayerMethodCallHandler);
-  }
-
-  static const MethodChannel _audioPlayerChannel =
-      MethodChannel('audio_player');
-  StreamController<AudioPlayerState> _playerStateController =
-      StreamController<AudioPlayerState>.broadcast();
-  Stream<AudioPlayerState> get onPlayerStateChanged =>
-      _playerStateController.stream;
-
-  Future<void> play(Uint8List data) async {
-    try {
-      await _audioPlayerChannel.invokeMethod<void>('play', data);
-    } on PlatformException catch (e) {
-      throw AudioPlayerException(e.message);
-    }
-  }
-
-  Future<void> pause() async {
-    try {
-      await _audioPlayerChannel.invokeMethod<void>('pause');
-    } on PlatformException catch (e) {
-      throw AudioPlayerException(e.message);
-    }
-  }
-
-  Future<void> stop() async {
-    try {
-      await _audioPlayerChannel.invokeMethod<void>('stop');
-    } on PlatformException catch (e) {
-      throw AudioPlayerException(e.message);
-    }
-  }
-
-  Future<int?> getDuration() async {
-    try {
-      return await _audioPlayerChannel.invokeMethod<int>('getDuration');
-    } on PlatformException catch (e) {
-      throw AudioPlayerException(e.message);
-    }
-  }
-
-  Future<int?> getCurrentPosition() async {
-    try {
-      return await _audioPlayerChannel.invokeMethod<int>('getCurrentPosition');
-    } on PlatformException catch (e) {
-      throw AudioPlayerException(e.message);
-    }
-  }
-
-  Future<void> seekTo(int milliseconds) async {
-    try {
-      await _audioPlayerChannel.invokeMethod<void>('seekTo', milliseconds);
-    } on PlatformException catch (e) {
-      throw AudioPlayerException(e.message);
-    }
-  }
-
-  Future<void> dispose() async {
-    try {
-      _playerStateController.close();
-      await _audioPlayerChannel.invokeMethod<void>('dispose');
-    } on PlatformException catch (e) {
-      throw AudioPlayerException(e.message);
-    }
-  }
-
-  Future<dynamic> _audioPlayerMethodCallHandler(MethodCall call) async {
-    switch (call.method) {
-      case 'onPlayerStateChanged':
-        _playerStateController
-            .add(AudioPlayerState.values[call.arguments['state']]);
-        break;
-    }
-  }
-}
-
-class AudioPlayerException implements Exception {
-  final String? message;
-
-  AudioPlayerException(this.message);
-}
-
-enum AudioPlayerState {
-  stopped,
-  playing,
-  paused,
-  completed,
-}
-
-// _____________________---------------------------_______________________----------------------
 class RecorderBase {
   MediaStream? _stream;
   MediaRecorder? _recorder;
@@ -115,8 +22,10 @@ class RecorderBase {
       if (_stream == null) {
         throw Exception('Failed to get user media stream');
       }
+      print("ffffffffff");
 
-      _recorder = MediaRecorder(_stream!);
+      _recorder = MediaRecorder(_stream!, {'mimeType': 'audio/wav'});
+      print("llllllllll");
       _recorder!.addEventListener('dataavailable', (event) async {
         final reader = FileReader();
         reader.readAsArrayBuffer((event as BlobEvent).data!);

@@ -32,7 +32,9 @@ class _RecordAudioWidgetState extends State<RecordAudioWidget> {
 
   void _startRecording() async {
     try {
+      print("afsafasdfasd");
       await _audioBase.startRecording();
+      print("aaaaaaaaaaaa");
       _timer = Timer.periodic(AppDuration.durationNormal, (timer) {
         setState(() {
           _elapsedSeconds++;
