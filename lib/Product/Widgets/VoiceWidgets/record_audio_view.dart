@@ -21,46 +21,50 @@ class RecordAudioWidget extends StatefulWidget {
 }
 
 class _RecordAudioWidgetState extends State<RecordAudioWidget> {
-  final RecorderBase _audioBase = RecorderBase();
+  late final RecorderBase _audioBase;
   Uint8List? _soundBytes;
   int _elapsedSeconds = 0;
   Timer? _timer;
+  bool _isBusy = false;
 
   String formatDuration(Duration duration) {
     return '${duration.inMinutes.remainder(60).toString().padLeft(2, '0')}:${duration.inSeconds.remainder(60).toString().padLeft(2, '0')}';
   }
 
+  @override
+  void initState() {
+    super.initState();
+    _audioBase = RecorderBase()..init();
+  }
+
+  void _busyChange() {
+    setState(() => _isBusy = !_isBusy);
+  }
+
   void _startRecording() async {
     try {
-      print("afsafasdfasd");
+      _busyChange();
       await _audioBase.startRecording();
-      print("aaaaaaaaaaaa");
-      _timer = Timer.periodic(AppDuration.durationNormal, (timer) {
-        setState(() {
-          _elapsedSeconds++;
-        });
-      });
+      print("object");
+      _timer = Timer.periodic(AppDuration.durationNormal,
+          (timer) => setState(() => _elapsedSeconds++));
+      _busyChange();
     } catch (e) {
-      // handle error
+      _audioBase.init();
     }
   }
 
   void _stopRecording(BuildContext context) async {
-    try {
-      _timer?.cancel();
-      _soundBytes = await _audioBase.stopRecording();
-      setState(() {
-        _elapsedSeconds = 0;
-      });
-      if (_soundBytes.isNotNullOrEmpty) {
-        context.read<NewRegCubit>().addAudioPlayerWidget(
-            audioBytes: _soundBytes!, indexinList: widget.indexinList);
-      }
-      print(_soundBytes);
-      // do something with the recorded bytes
-    } catch (e) {
-      // handle error
-    }
+    _busyChange();
+    _soundBytes = await _audioBase.stopRecording();
+
+    // ignore: use_build_context_synchronously
+    context.read<NewRegCubit>().addAudioPlayerWidget(
+        audioData: _soundBytes, indexinList: widget.indexinList);
+
+    _isBusy = false;
+    _timer?.cancel();
+    _audioBase.dispose();
   }
 
   @override
@@ -68,9 +72,11 @@ class _RecordAudioWidgetState extends State<RecordAudioWidget> {
     return BlocBuilder<NewRegCubit, List<NewRegModel>>(
       builder: (context, state) {
         return EmptyDotterBorder(
-            onTap: _audioBase.isRecording
-                ? () => _stopRecording(context)
-                : () => _startRecording(),
+            onTap: _isBusy
+                ? null
+                : _audioBase.isRecording
+                    ? () => _stopRecording(context)
+                    : () => _startRecording(),
             height: .08,
             child: AnimatedSwitcher(
               duration: AppDuration.durationLow,

@@ -45,8 +45,8 @@ class NewRegCubit extends Cubit<List<NewRegModel>> {
 
   // Add Audio Player to New Reg List
   void addAudioPlayerWidget(
-      {required int indexinList, required Uint8List audioBytes}) {
-    if (audioBytes.isNullOrEmpty) return;
+      {required int indexinList, required Uint8List? audioData}) {
+    if (audioData.isNullOrEmpty) return;
     state.removeAt(indexinList);
     state.insert(
         indexinList,
@@ -54,7 +54,7 @@ class NewRegCubit extends Cubit<List<NewRegModel>> {
           indexinList: indexinList,
           widgetType: WhichWidget.audioPlayer,
           widget: AudioPlayerWidget(
-            audioData: audioBytes,
+            audioData: audioData!,
             indexInList: indexinList,
           ),
         ));

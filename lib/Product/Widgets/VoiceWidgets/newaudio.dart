@@ -15,7 +15,7 @@ class AudioPlayerWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _AudioPlayerWidgetState createState() => _AudioPlayerWidgetState();
+  State<AudioPlayerWidget> createState() => _AudioPlayerWidgetState();
 }
 
 class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
@@ -55,23 +55,13 @@ class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
         }
       }
     });
-    getWavDuration(widget.audioData);
+
     print("Duraton : $_duration");
     _timeRangesSubscription = _audioElement.onTimeUpdate.listen((_) {
       setState(() {
         _position = Duration(seconds: _audioElement.currentTime.toInt());
       });
     });
-  }
-
-  void getWavDuration(Uint8List audioData) {
-    int sampleRate =
-        ByteData.view(audioData.buffer).getUint32(24, Endian.little);
-    int byteRate = ByteData.view(audioData.buffer).getUint32(28, Endian.little);
-    int audioLength = audioData.length - 44;
-    int sampleSize = byteRate ~/ sampleRate;
-    double duration = audioLength / sampleRate / sampleSize;
-    print('Duration (legend): $duration');
   }
 
   @override
