@@ -1,141 +1,110 @@
-import 'dart:html';
-import 'dart:async';
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 
 class AudioPlayerWidget extends StatefulWidget {
-  final Uint8List audioData;
-  final int indexInList;
+  final Uint8List audioFileBytes;
+  final String? title;
+  final String? artist;
 
-  const AudioPlayerWidget({
-    Key? key,
-    required this.audioData,
-    required this.indexInList,
-  }) : super(key: key);
+  AudioPlayerWidget({required this.audioFileBytes, this.title, this.artist});
 
   @override
-  State<AudioPlayerWidget> createState() => _AudioPlayerWidgetState();
+  _AudioPlayerWidgetState createState() => _AudioPlayerWidgetState();
 }
 
 class _AudioPlayerWidgetState extends State<AudioPlayerWidget> {
-  late AudioElement _audioElement;
+  late AudioPlayer _audioPlayer;
   bool _isPlaying = false;
-  Duration _duration = Duration.zero;
-  Duration _position = Duration.zero;
-
-  StreamSubscription<Event>? _timeRangesSubscription;
+  Duration _duration = Duration();
+  Duration _position = Duration();
 
   @override
   void initState() {
     super.initState();
-    _audioElement = AudioElement();
-    final blob = Blob([widget.audioData], 'audio/webm');
-    final url = Url.createObjectUrlFromBlob(blob);
-    _audioElement.src = url;
-    _audioElement.loop = true;
+    _audioPlayer = AudioPlayer();
+    _initAudioPlayer();
+  }
 
-    _audioElement.onLoadedMetadata.listen((_) {
-      print("sdf");
-      print("Burada ${_audioElement.readyState}: ${_audioElement.duration}");
-      if (_audioElement.readyState >= 2) {
-        print("Burada ${_audioElement.readyState}: ${_audioElement.duration}");
-        if (_audioElement.duration.isFinite) {
-          setState(() {
-            _duration = Duration(seconds: _audioElement.duration.toInt());
-          });
-        } else {
-          Future.delayed(Duration(milliseconds: 100), () {
-            if (_audioElement.duration.isFinite) {
-              setState(() {
-                _duration = Duration(seconds: _audioElement.duration.toInt());
-              });
-            }
-          });
-        }
-      }
-    });
-
-    print("Duraton : $_duration");
-    _timeRangesSubscription = _audioElement.onTimeUpdate.listen((_) {
+  void _initAudioPlayer() async {
+    await _audioPlayer.setAudioSource(
+      ConcatenatingAudioSource(
+          children: [memoryFileSource(widget.audioFileBytes)]),
+      initialIndex: 0,
+      preload: true,
+    );
+    _audioPlayer.positionStream.listen((event) {
       setState(() {
-        _position = Duration(seconds: _audioElement.currentTime.toInt());
+        _position = event;
       });
     });
+    _audioPlayer.durationStream.listen((event) {
+      setState(() {
+        _duration = event ?? Duration.zero;
+      });
+    });
+    setState(() {});
   }
 
   @override
   void dispose() {
-    _audioElement.pause();
-    _timeRangesSubscription?.cancel();
+    _audioPlayer.dispose();
     super.dispose();
   }
 
-  void _play() {
-    _audioElement.play();
+  void _playPause() async {
+    if (_isPlaying) {
+      await _audioPlayer.pause();
+    } else {
+      await _audioPlayer.play();
+    }
     setState(() {
-      _isPlaying = true;
+      _isPlaying = !_isPlaying;
     });
   }
 
-  void _pause() {
-    _audioElement.pause();
-    setState(() {
-      _isPlaying = false;
-    });
-  }
-
-  void _stop() {
-    _audioElement.pause();
-    _audioElement.currentTime = 0;
-    setState(() {
-      _isPlaying = false;
-      _position = Duration.zero;
-    });
+  String _formatDuration(Duration duration) {
+    var minutes = duration.inMinutes.remainder(60).toString().padLeft(2, '0');
+    var seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
+    return '$minutes:$seconds';
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Ses ${widget.indexInList + 1}',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        SizedBox(height: 8),
-        Row(
+    return StreamBuilder<PlayerState>(
+      stream: _audioPlayer.playerStateStream,
+      builder: (context, snapshot) {
+        final playerState = snapshot.data;
+        final processingState = playerState?.processingState;
+        final playing = playerState?.playing;
+
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            IconButton(
-              icon: Icon(_isPlaying ? Icons.pause : Icons.play_arrow),
-              onPressed: _isPlaying ? _pause : _play,
-            ),
-            IconButton(
-              icon: Icon(Icons.stop),
-              onPressed: _stop,
-            ),
-            Expanded(
-              child: Slider(
-                value: _position.inSeconds.toDouble(),
-                min: 0,
-                max: _duration!.inSeconds.toDouble(),
-                onChanged: (value) {
-                  setState(() {
-                    _position = Duration(seconds: value.toInt());
-                  });
-                  _audioElement.currentTime = _position.inSeconds.toDouble();
-                },
+            if (processingState == ProcessingState.loading ||
+                processingState == ProcessingState.buffering)
+              CircularProgressIndicator()
+            else if (!_isPlaying)
+              IconButton(
+                icon: Icon(Icons.play_arrow),
+                iconSize: 50.0,
+                onPressed: _audioPlayer.play,
+              )
+            else if (processingState != ProcessingState.completed)
+              IconButton(
+                icon: Icon(Icons.pause),
+                iconSize: 50.0,
+                onPressed: _audioPlayer.pause,
+              )
+            else
+              IconButton(
+                icon: Icon(Icons.replay),
+                iconSize: 50.0,
+                onPressed: () => _audioPlayer.seek(Duration.zero),
               ),
-            ),
-            Text(
-              '${_position.toString().split('.').first}/${_duration.toString().split('.').first}',
-            ),
           ],
-        ),
-      ],
+        );
+      },
     );
   }
 }

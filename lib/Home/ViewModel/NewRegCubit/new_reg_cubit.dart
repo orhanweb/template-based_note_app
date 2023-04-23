@@ -9,8 +9,7 @@ import 'package:ekin_app/Product/Widgets/ImageWidgets/show_image_view_for_mobile
 import 'package:ekin_app/Product/Widgets/TextInputWidget/text_input_widget.dart';
 import 'package:ekin_app/Product/Widgets/VoiceWidgets/newaudio.dart';
 import 'package:ekin_app/Product/Widgets/VoiceWidgets/record_audio_view.dart';
-import 'package:ekin_app/Product/Widgets/VoiceWidgets/audio_player_view.dart';
-import 'package:ekin_app/Product/Widgets/VoiceWidgets/sound_base.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kartal/kartal.dart';
 

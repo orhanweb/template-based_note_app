@@ -34,7 +34,7 @@ class _RecordAudioWidgetState extends State<RecordAudioWidget> {
   @override
   void initState() {
     super.initState();
-    _audioBase = RecorderBase()..init();
+    _audioBase = RecorderBase();
   }
 
   void _busyChange() {
@@ -42,16 +42,14 @@ class _RecordAudioWidgetState extends State<RecordAudioWidget> {
   }
 
   void _startRecording() async {
-    try {
-      _busyChange();
-      await _audioBase.startRecording();
-      print("object");
+    _busyChange();
+    bool isStarting = await _audioBase.startRecording();
+    if (isStarting) {
       _timer = Timer.periodic(AppDuration.durationNormal,
           (timer) => setState(() => _elapsedSeconds++));
-      _busyChange();
-    } catch (e) {
-      _audioBase.init();
     }
+
+    _busyChange();
   }
 
   void _stopRecording(BuildContext context) async {
@@ -62,7 +60,7 @@ class _RecordAudioWidgetState extends State<RecordAudioWidget> {
     context.read<NewRegCubit>().addAudioPlayerWidget(
         audioData: _soundBytes, indexinList: widget.indexinList);
 
-    _isBusy = false;
+    _busyChange();
     _timer?.cancel();
     _audioBase.dispose();
   }
@@ -70,38 +68,30 @@ class _RecordAudioWidgetState extends State<RecordAudioWidget> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NewRegCubit, List<NewRegModel>>(
-      builder: (context, state) {
-        return EmptyDotterBorder(
-            onTap: _isBusy
-                ? null
-                : _audioBase.isRecording
-                    ? () => _stopRecording(context)
-                    : () => _startRecording(),
-            height: .08,
-            child: AnimatedSwitcher(
+        builder: (context, state) {
+      return EmptyDotterBorder(
+          onTap: _isBusy
+              ? null
+              : _audioBase.isRecording
+                  ? () => _stopRecording(context)
+                  : () => _startRecording(),
+          height: .08,
+          child: AnimatedSwitcher(
               duration: AppDuration.durationLow,
               child: _audioBase.isRecording
                   ? Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          formatDuration(Duration(seconds: _elapsedSeconds)),
-                          style: context.textTheme.headlineSmall,
-                        ),
-                        Text(
-                          "Stop recording",
-                          style: context.textTheme.bodyMedium,
-                        )
-                      ],
-                    )
+                          Text(
+                              formatDuration(
+                                  Duration(seconds: _elapsedSeconds)),
+                              style: context.textTheme.headlineSmall),
+                          Text("Stop recording",
+                              style: context.textTheme.bodyMedium)
+                        ])
                   : Center(
-                      child: Text(
-                        "Tap to record audio",
-                        style: context.textTheme.titleMedium,
-                      ),
-                    ),
-            ));
-      },
-    );
+                      child: Text("Tap to record audio",
+                          style: context.textTheme.titleMedium))));
+    });
   }
 }

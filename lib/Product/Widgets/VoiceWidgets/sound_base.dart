@@ -14,25 +14,13 @@ class RecorderBase {
   List<Uint8List> _chunks = [];
   bool isRecording = false;
   int _countDownLoadChunks = 0;
-  void init() async {
+
+  Future<bool> startRecording() async {
     try {
-      dispose();
       _stream =
           await window.navigator.mediaDevices?.getUserMedia({'audio': true});
+
       _recorder = MediaRecorder(_stream!);
-    } catch (e) {
-      throw Exception('Recorder Base failed to initialize.');
-    }
-  }
-
-  Future<void> startRecording() async {
-    try {
-      if (_stream == null || _recorder == null) {
-        init();
-        throw Exception(
-            'Failed to get user media stream and recorder didnt connect to stream');
-      }
-
       _recorder?.start();
       isRecording = true;
       _recorder?.addEventListener('dataavailable', (event) async {
@@ -44,21 +32,18 @@ class RecorderBase {
           throw Exception('Failed to read data available from media recorder');
         }
         _chunks.add(buffer);
-        print("object11");
       });
+      return true;
     } catch (e) {
       log('Error while starting audio recording: $e');
-      init();
-      rethrow;
+      dispose();
+      // add remove method later
+      return false;
     }
   }
 
   Future<Uint8List?> stopRecording() async {
     try {
-      if (_recorder == null || _stream == null) {
-        init();
-        throw Exception('Media recorder is not available');
-      }
       _recorder?.stop();
       _stream?.getTracks().forEach((track) => track.stop());
 
@@ -78,6 +63,7 @@ class RecorderBase {
 
       return bytes;
     } catch (e) {
+      // add remove method later
       log('Error while stopping audio recording: $e');
       rethrow;
     }
@@ -85,11 +71,13 @@ class RecorderBase {
 
   void dispose() {
     try {
-      _recorder?.stop();
+      if (_recorder != null && _recorder?.state == 'recording') {
+        _recorder?.stop();
+        _recorder = null;
+      }
       _stream?.getTracks().forEach((track) => track.stop());
       _chunks.clear();
       isRecording = false;
-      _recorder = null;
       _stream = null;
     } catch (e) {
       log('Error while disposing audio recording: $e');
