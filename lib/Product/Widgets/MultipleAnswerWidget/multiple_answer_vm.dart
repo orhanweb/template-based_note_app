@@ -1,5 +1,6 @@
 import 'package:ekin_app/Core/Constants/string_const.dart';
-import 'package:ekin_app/Product/Widgets/MultipleAnswerWidget/multiple_anser_widget_view.dart';
+import 'package:ekin_app/Product/Utils/Enums/widget_enum.dart';
+import 'package:ekin_app/Product/Widgets/MultipleAnswerWidget/multiple_anser_view.dart';
 import 'package:ekin_app/Product/Widgets/MultipleAnswerWidget/options_widget_model.dart';
 import 'package:ekin_app/Product/Widgets/Atomics/atom_alert_widget.dart';
 import 'package:flutter/material.dart';
@@ -29,9 +30,10 @@ mixin MultipleAnswerMixin on State<MultipleAnserView> {
 
   double height(BuildContext context) {
     if (widget.options.length < 5) {
-      return context.dynamicHeight(0.20) + (widget.options.length * 60);
+      return ProjectWidgetEnums.multipleAnswerWidgetHeight.value +
+          (widget.options.length * 60);
     } else {
-      return context.dynamicHeight(0.20) + 300;
+      return ProjectWidgetEnums.multipleAnswerWidgetHeight.value + 300;
     }
   }
 }

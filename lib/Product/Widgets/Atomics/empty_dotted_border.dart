@@ -28,7 +28,7 @@ class EmptyDotterBorder extends StatelessWidget {
           strokeWidth: 5,
           child: Container(
               width: double.infinity,
-              height: context.dynamicHeight(height),
+              height: height,
               margin: kPaddingVerticalMedium + kPaddingHorizontalMed,
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,

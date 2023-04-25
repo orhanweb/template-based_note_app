@@ -61,8 +61,6 @@ dependencies:
 
   #sound
   audioplayers: ^3.0.1
-  just_audio: ^0.9.32
-  just_audio_web: ^0.4.7
 
   #theme
   dynamic_color: ^1.6.3

@@ -1,4 +1,4 @@
-import 'package:ekin_app/Home/View/HomeSubViews/new_registration.dart';
+import 'package:ekin_app/Home/View/HomeSubViews/new_note_view.dart';
 import 'package:ekin_app/Product/Widgets/SliverAppBarWidget/sliver_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
@@ -11,10 +11,9 @@ class MainHome extends StatelessWidget {
       length: 3,
       child: Scaffold(
         body: NestedScrollView(
-          headerSliverBuilder: (context, innerBoxIsScrolled) =>
-              [const CSliverAppbar()],
+          headerSliverBuilder: (context, _) => [const CSliverAppbar()],
           body: TabBarView(children: [
-            const NewRegistrationView(),
+            const NewNoteView(),
             Container(height: context.dynamicHeight(1), color: Colors.white30),
             Container(height: context.dynamicHeight(1), color: Colors.white70)
           ]),

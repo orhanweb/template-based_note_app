@@ -19,11 +19,13 @@ class AppStrings {
   static const String camera = 'Camera';
   static const String gallery = "Gallery";
   static const String pictureAlertDialogTitle = "Add Picture";
+  static const String requiredPermissionFailedText =
+      'Camera and Storage permissions required';
 
-  // photo operations floating action buttons tool tip text
+  // ShowImage floating action buttons tool tip text
   static const String cropImage = "Resmi Kırp";
   static const String textOnImage = "Resimdeki Yazıyı Çıkar";
-  static const String refresh = 'Yeniden Çek';
+  static const String refresh = 'Yeniden';
 
   // Multiple answer strings
   static const String addOption = "+ Add Option"; //same time alert widget title

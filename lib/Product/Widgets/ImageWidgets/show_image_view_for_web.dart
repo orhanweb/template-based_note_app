@@ -3,6 +3,7 @@ import 'package:ekin_app/Core/Constants/padding_const.dart';
 import 'package:ekin_app/Core/Constants/radius.dart';
 import 'package:ekin_app/Core/Constants/string_const.dart';
 import 'package:ekin_app/Home/ViewModel/NewRegCubit/new_reg_cubit.dart';
+import 'package:ekin_app/Product/Utils/Enums/widget_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kartal/kartal.dart';
@@ -18,7 +19,7 @@ class ShowImageViewWeb extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: AppRadius.radius12Circular,
           color: context.colorScheme.inversePrimary),
-      height: context.dynamicHeight(0.3),
+      height: ProjectWidgetEnums.imageShowerWidgetHeigth.value,
       child: Stack(
         children: [
           _showImage(context),
@@ -54,7 +55,6 @@ class ShowImageViewWeb extends StatelessWidget {
                 FullScreenImageView(imageBytes)));
       },
       child: Container(
-        height: context.dynamicHeight(0.23),
         margin: kPaddingVerticalMedium,
         child: Center(
           child: ClipRRect(

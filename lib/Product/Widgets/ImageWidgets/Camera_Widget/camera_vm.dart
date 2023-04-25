@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:ekin_app/Core/Constants/string_const.dart';
 import 'package:ekin_app/Home/ViewModel/NewRegCubit/new_reg_cubit.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -65,8 +66,8 @@ mixin CameraForMobileMixin on StatelessWidget {
 
   void showSnackBar(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Camera and Storage permissions required'),
-        duration: Duration(seconds: 3),
+        content: const Text(AppStrings.requiredPermissionFailedText),
+        duration: const Duration(seconds: 3),
         action: SnackBarAction(
             label: 'Open Settings', onPressed: () => openAppSettings())));
   }

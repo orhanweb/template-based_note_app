@@ -4,8 +4,9 @@ import 'dart:typed_data';
 import 'package:ekin_app/Core/Constants/duration_const.dart';
 import 'package:ekin_app/Home/ViewModel/NewRegCubit/new_reg_cubit.dart';
 import 'package:ekin_app/Home/ViewModel/NewRegCubit/new_reg_model.dart';
+import 'package:ekin_app/Product/Utils/Enums/widget_enum.dart';
 import 'package:ekin_app/Product/Widgets/Atomics/empty_dotted_border.dart';
-import 'package:ekin_app/Product/Widgets/VoiceWidgets/sound_base.dart';
+import 'package:ekin_app/Product/Widgets/VoiceWidgets/recorder_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kartal/kartal.dart';
@@ -58,7 +59,9 @@ class _RecordAudioWidgetState extends State<RecordAudioWidget> {
 
     // ignore: use_build_context_synchronously
     context.read<NewRegCubit>().addAudioPlayerWidget(
-        audioData: _soundBytes, indexinList: widget.indexinList);
+        audioLenght: _elapsedSeconds,
+        audioData: _soundBytes,
+        indexinList: widget.indexinList);
 
     _busyChange();
     _timer?.cancel();
@@ -75,7 +78,7 @@ class _RecordAudioWidgetState extends State<RecordAudioWidget> {
               : _audioBase.isRecording
                   ? () => _stopRecording(context)
                   : () => _startRecording(),
-          height: .08,
+          height: ProjectWidgetEnums.recorderAudioWidgetHeigth.value,
           child: AnimatedSwitcher(
               duration: AppDuration.durationLow,
               child: _audioBase.isRecording

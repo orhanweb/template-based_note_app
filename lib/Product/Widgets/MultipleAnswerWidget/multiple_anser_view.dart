@@ -1,7 +1,7 @@
 import 'package:ekin_app/Core/Constants/padding_const.dart';
 import 'package:ekin_app/Core/Constants/radius.dart';
 import 'package:ekin_app/Core/Constants/string_const.dart';
-import 'package:ekin_app/Product/Widgets/MultipleAnswerWidget/multiple_answer_view_model.dart';
+import 'package:ekin_app/Product/Widgets/MultipleAnswerWidget/multiple_answer_vm.dart';
 import 'package:ekin_app/Product/Widgets/MultipleAnswerWidget/option_widget.dart';
 import 'package:ekin_app/Product/Widgets/MultipleAnswerWidget/options_widget_model.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +27,7 @@ class _MultipleAnserViewState extends State<MultipleAnserView>
           borderRadius: AppRadius.radius10Circular),
       height: height(context),
       child: Padding(
-        padding: kPaddingAllSmall - kPaddingBottomSmall,
+        padding: kPaddingAllSmall,
         child: Column(
           children: [
             questionField(widget.questionController),
@@ -39,11 +39,9 @@ class _MultipleAnserViewState extends State<MultipleAnserView>
                 },
               ),
             ),
-            Center(
-              child: ElevatedButton(
-                onPressed: () => onPressed(context),
-                child: const Text(AppStrings.addOption),
-              ),
+            ElevatedButton(
+              onPressed: () => onPressed(context),
+              child: const Text(AppStrings.addOption),
             ),
           ],
         ),
