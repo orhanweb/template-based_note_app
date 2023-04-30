@@ -12,7 +12,7 @@ class TemplatesView extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {},
-          child: const Icon(Icons.add),
+          child: const Icon(Icons.add_box_outlined),
         ));
   }
 }
