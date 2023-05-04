@@ -7,8 +7,6 @@ import 'package:ekin_app/Product/Widgets/ImageWidgets/Camera_Widget/camera_view.
 import 'package:ekin_app/Product/Widgets/ImageWidgets/show_image_view_for_web.dart';
 import 'package:ekin_app/Product/Widgets/ImageWidgets/show_image_view_for_mobile.dart';
 import 'package:ekin_app/Product/Widgets/TextInputWidget/text_input_widget.dart';
-import 'package:ekin_app/Product/Widgets/VoiceWidgets/play_audio_view.dart';
-import 'package:ekin_app/Product/Widgets/VoiceWidgets/record_audio_view.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kartal/kartal.dart';
@@ -31,35 +29,37 @@ class NewRegCubit extends Cubit<List<NewRegModel>> {
   }
 
   // Add Voice Recorder Widget to New Reg(Note) List
+  // NOW THIS FUNCTION IS NOT AVAIABLE 02.05.23
   void addVoiceRecorderWidget() {
-    state.add(NewRegModel(
-        indexinList: state.length,
-        widgetType: WhichWidget.voiceRecorder,
-        widget: RecordAudioWidget(
-          indexinList: state.length,
-        )));
+    // state.add(NewRegModel(
+    //     indexinList: state.length,
+    //     widgetType: WhichWidget.voiceRecorder,
+    //     widget: RecordAudioWidget(
+    //       indexinList: state.length,
+    //     )));
     final newState = List<NewRegModel>.from(state);
     emit(newState);
   }
 
   // Add Audio Player to New Reg List
+  // NOW THIS FUNCTION IS NOT AVAIABLE 02.05.23
   void addAudioPlayerWidget(
       {required int indexinList,
       required Uint8List? audioData,
       required int audioLenght}) {
     if (audioData.isNullOrEmpty) return;
     state.removeAt(indexinList);
-    state.insert(
-        indexinList,
-        NewRegModel(
-          indexinList: indexinList,
-          widgetType: WhichWidget.audioPlayer,
-          widget: PlayerAudioWidget(
-            audioData: audioData!,
-            audioLenght: audioLenght,
-            indexinList: indexinList,
-          ),
-        ));
+    // state.insert(
+    //     indexinList,
+    //     NewRegModel(
+    //       indexinList: indexinList,
+    //       widgetType: WhichWidget.audioPlayer,
+    //       widget: PlayerAudioWidget(
+    //         audioData: audioData!,
+    //         audioLenght: audioLenght,
+    //         indexinList: indexinList,
+    //       ),
+    //     ));
 
     final newState = List<NewRegModel>.from(state);
     emit(newState);

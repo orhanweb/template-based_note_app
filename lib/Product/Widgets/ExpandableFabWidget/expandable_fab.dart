@@ -67,9 +67,7 @@ class CExpandableFabWidget extends StatelessWidget {
             // Add Voice Recorder Widget
             FloatingActionButton.small(
               heroTag: WhichWidget.voiceRecorder,
-              onPressed: () {
-                context.read<NewRegCubit>().addVoiceRecorderWidget();
-              },
+              onPressed: () {},
               child: const Icon(Icons.mic_none),
             )
           ],

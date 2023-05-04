@@ -1,4 +1,3 @@
-import 'package:ekin_app/Product/Widgets/ExpandableFabWidget/expandable_fab.dart';
 import 'package:flutter/material.dart';
 
 class TemplatesView extends StatelessWidget {
