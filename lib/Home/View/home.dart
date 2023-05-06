@@ -1,5 +1,5 @@
 import 'package:ekin_app/Home/View/HomeSubViews/new_note_view.dart';
-import 'package:ekin_app/Home/View/HomeSubViews/templates_view.dart';
+import 'package:ekin_app/Home/View/HomeSubViews/Templates/templates_view.dart';
 import 'package:ekin_app/Product/Widgets/SliverAppBarWidget/sliver_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';

@@ -1,4 +1,6 @@
+import 'package:ekin_app/Home/View/HomeSubViews/Templates/new_template_view.dart';
 import 'package:flutter/material.dart';
+import 'package:kartal/kartal.dart';
 
 class TemplatesView extends StatelessWidget {
   const TemplatesView({super.key});
@@ -10,8 +12,11 @@ class TemplatesView extends StatelessWidget {
           child: Text("This area is Templates area"),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: const Icon(Icons.add_box_outlined),
+          onPressed: () {
+            context.navigateToPage(const NewTemplateView(),
+                type: SlideType.TOP);
+          },
+          child: const Icon(Icons.add_circle_outline_outlined),
         ));
   }
 }

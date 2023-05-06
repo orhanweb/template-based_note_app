@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -13,7 +14,6 @@ mixin CameraForMobileMixin on StatelessWidget {
   // get a image func
   Future<File?> _getImage({required ImageSource source}) async {
     final XFile? image = await ImagePicker().pickImage(source: source);
-
     if (image == null) return null;
     return File(image.path);
   }
@@ -24,16 +24,21 @@ mixin CameraForMobileMixin on StatelessWidget {
       required int indexinList,
       required bool isCamera}) async {
     bool hasPermissions = await requestPermissions(context);
+    print(hasPermissions);
     if (hasPermissions) {
+      print("object");
+
       final File? image = await _getImage(
           source: isCamera ? ImageSource.camera : ImageSource.gallery);
+      inspect(image);
 
-      if (context.mounted) {
-        context
-            .read<NewRegCubit>()
-            .addShowimageWidget(indexinList: indexinList, image: image);
-      }
+      if (context.mounted) {}
+      context
+          .read<NewRegCubit>()
+          .addShowimageWidget(indexinList: indexinList, image: image);
     } else {
+      print("object");
+
       if (context.mounted) showSnackBar(context);
     }
   }
