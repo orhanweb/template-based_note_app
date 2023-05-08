@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ekin_app/Core/Constants/radius.dart';
 import 'package:ekin_app/Core/Constants/string_const.dart';
 import 'package:ekin_app/Home/ViewModel/NewRegCubit/new_reg_cubit.dart';
@@ -9,10 +11,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+// ignore: must_be_immutable
 class CameraView extends StatelessWidget with CameraForMobileMixin {
-  const CameraView({super.key, required this.indexinList});
+  CameraView({super.key, required this.indexinList});
   final int indexinList;
-
+  File? image;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NewRegCubit, List<NewRegModel>>(
@@ -23,13 +26,13 @@ class CameraView extends StatelessWidget with CameraForMobileMixin {
                     pickImageForWeb(context: context, indexinList: indexinList);
                   }
                 : () {
-                    showDialog(
+                    showDialog<File?>(
                         context: context,
                         builder: (context) {
                           return Dialog(
                             shape: RoundedRectangleBorder(
                                 borderRadius: AppRadius.radius10Circular),
-                            child: _customDialog(context),
+                            child: _customDialog(context, context),
                           );
                         });
                   },
@@ -43,7 +46,7 @@ class CameraView extends StatelessWidget with CameraForMobileMixin {
     );
   }
 
-  Widget _customDialog(BuildContext context) {
+  Widget _customDialog(BuildContext alertContext, BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -51,13 +54,13 @@ class CameraView extends StatelessWidget with CameraForMobileMixin {
         SizedBox(
           width: double.infinity,
           child: TextButton(
-              onPressed: () {
-                pickImageForMobile(
+              onPressed: () async {
+                image = await pickImageForMobile(
                   context: context,
                   indexinList: indexinList,
                   isCamera: true,
                 );
-                Navigator.pop(context);
+                Navigator.pop<File?>(alertContext);
               },
               child: const Text(AppStrings.camera)),
         ),
@@ -69,7 +72,7 @@ class CameraView extends StatelessWidget with CameraForMobileMixin {
                     context: context,
                     indexinList: indexinList,
                     isCamera: false);
-                Navigator.pop(context);
+                Navigator.pop(alertContext);
               },
               child: const Text(AppStrings.gallery)),
         ),
