@@ -35,8 +35,6 @@ dependencies:
   #core
   path_provider: ^2.0.14
   permission_handler: ^10.2.0
-  permission_handler_web: ^0.0.2
-  app_settings: ^4.2.0
 
   #state management
   flutter_bloc: ^8.1.2
@@ -52,7 +50,7 @@ dependencies:
   flutter_expandable_fab: ^1.7.0
 
   #image process
-  image_picker: ^0.8.6+1
+  image_picker: ^0.8.7+4
   image_cropper: ^3.0.1
   file_picker: ^5.2.7
 
