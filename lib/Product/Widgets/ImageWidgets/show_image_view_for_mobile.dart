@@ -88,21 +88,16 @@ class _ShowImageViewState extends State<ShowImageView> with ShowImageMixin {
             onPressed: isLoading
                 ? null
                 : () async {
-                    await getTextOnImage(image: widget.image);
+                    getTextOnImage(image: widget.image);
                   },
             icon: isLoading
-                ? Padding(
-                    padding: kPaddingAllSmall * 1.5,
-                    child: const CircularProgressIndicator.adaptive(
-                        strokeWidth: 2),
-                  )
+                ? const CircularProgressIndicator.adaptive(strokeWidth: 2)
                 : const Icon(Icons.text_snippet_rounded)),
         BlocBuilder<NewRegCubit, List>(
           builder: (context, state) {
             return IconButton(
               tooltip: AppStrings.refresh,
               onPressed: () {
-                widget.image.delete();
                 context
                     .read<NewRegCubit>()
                     .backtoCameraWidget(indexinList: widget.indexinList);

@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:ekin_app/Core/Constants/radius.dart';
 import 'package:ekin_app/Core/Constants/string_const.dart';
@@ -60,7 +59,7 @@ class CustomCameraDialog extends StatelessWidget {
   late final File? image;
 
   Future<File?> _getImage(ImageSource source) async {
-    bool hasPermissions = await PermissionService.checkAndRequestCamStroage();
+    bool hasPermissions = await PermissionService.checkAndRequestCamera();
     if (hasPermissions) {
       image = await _cameraForApp.pickImageForMobile(source: source);
       return image;

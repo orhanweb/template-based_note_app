@@ -33,7 +33,6 @@ dependencies:
   cupertino_icons: ^1.0.2
 
   #core
-  path_provider: ^2.0.14
   permission_handler: ^10.2.0
 
   #state management
@@ -45,7 +44,6 @@ dependencies:
   #utilty
   equatable: ^2.0.5
   dotted_border: ^2.0.0+3
-  lottie: ^2.2.0
   kartal: ^2.8.0
   flutter_expandable_fab: ^1.7.0
 
@@ -55,7 +53,6 @@ dependencies:
   file_picker: ^5.2.7
 
   #sound
-  audioplayers: ^3.0.1
 
   #theme
   dynamic_color: ^1.6.3
