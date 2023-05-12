@@ -1,5 +1,5 @@
 import 'package:ekin_app/Core/Constants/string_const.dart';
-import 'package:ekin_app/Product/Utils/Enums/widget_enum.dart';
+import 'package:ekin_app/Product/Utils/Enums/widget_sizes_enum.dart';
 import 'package:ekin_app/Product/Widgets/MultipleAnswerWidget/multiple_anser_view.dart';
 import 'package:ekin_app/Product/Widgets/MultipleAnswerWidget/options_widget_model.dart';
 import 'package:ekin_app/Product/Widgets/Atomics/atom_alert_widget.dart';

@@ -53,6 +53,7 @@ dependencies:
   file_picker: ^5.2.7
 
   #sound
+  flutter_sound: ^9.2.13
 
   #theme
   dynamic_color: ^1.6.3

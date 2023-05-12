@@ -4,7 +4,7 @@ import 'package:ekin_app/Core/Constants/radius.dart';
 import 'package:ekin_app/Core/Constants/string_const.dart';
 import 'package:ekin_app/Home/ViewModel/NewRegCubit/new_reg_cubit.dart';
 import 'package:ekin_app/Home/ViewModel/NewRegCubit/new_reg_model.dart';
-import 'package:ekin_app/Product/Utils/Enums/widget_enum.dart';
+import 'package:ekin_app/Product/Utils/Enums/widget_sizes_enum.dart';
 import 'package:ekin_app/Product/Utils/Permissions/permissions.dart';
 import 'package:ekin_app/Product/Widgets/Atomics/empty_dotted_border.dart';
 import 'package:flutter/foundation.dart';

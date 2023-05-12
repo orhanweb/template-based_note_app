@@ -19,7 +19,7 @@ class _NewTemplateViewState extends State<NewTemplateView> {
             controller: _controller,
             decoration: const InputDecoration(hintText: "Template Name.."),
           )),
-      floatingActionButton: ExpandableFab(children: []),
+      floatingActionButton: const ExpandableFab(children: []),
     );
   }
 }

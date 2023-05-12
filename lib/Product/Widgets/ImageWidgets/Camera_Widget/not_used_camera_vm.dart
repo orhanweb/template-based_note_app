@@ -24,10 +24,8 @@ mixin CameraForMobileMixin on StatelessWidget {
       required int indexinList,
       required bool isCamera}) async {
     bool hasPermissions = await requestPermissions();
-    print(hasPermissions);
-    if (hasPermissions) {
-      print("object");
 
+    if (hasPermissions) {
       final File? image = await _getImage(
           source: isCamera ? ImageSource.camera : ImageSource.gallery);
       inspect(image);
