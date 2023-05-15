@@ -7,6 +7,7 @@ import 'package:ekin_app/Product/Widgets/ImageWidgets/Camera_Widget/camera_view.
 import 'package:ekin_app/Product/Widgets/ImageWidgets/show_image_view_for_web.dart';
 import 'package:ekin_app/Product/Widgets/ImageWidgets/show_image_view_for_mobile.dart';
 import 'package:ekin_app/Product/Widgets/TextInputWidget/text_input_widget.dart';
+import 'package:ekin_app/Product/Widgets/VoiceWidgets/recorder_view.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kartal/kartal.dart';
@@ -31,12 +32,12 @@ class NewRegCubit extends Cubit<List<NewRegModel>> {
   // Add Voice Recorder Widget to New Reg(Note) List
   // NOW THIS FUNCTION IS NOT AVAIABLE 02.05.23
   void addVoiceRecorderWidget() {
-    // state.add(NewRegModel(
-    //     indexinList: state.length,
-    //     widgetType: WhichWidget.voiceRecorder,
-    //     widget: RecordAudioWidget(
-    //       indexinList: state.length,
-    //     )));
+    state.add(NewRegModel(
+        indexinList: state.length,
+        widgetType: WhichWidget.voiceRecorder,
+        widget: RecorderView(
+          indexinList: state.length,
+        )));
     final newState = List<NewRegModel>.from(state);
     emit(newState);
   }
