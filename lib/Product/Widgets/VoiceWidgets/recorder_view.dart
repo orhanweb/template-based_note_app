@@ -1,14 +1,16 @@
 import 'package:ekin_app/Product/Utils/Enums/widget_sizes_enum.dart';
+import 'package:ekin_app/Product/Utils/Permissions/permissions.dart';
 import 'package:ekin_app/Product/Widgets/Atomics/empty_dotted_border.dart';
 import 'package:ekin_app/Product/Widgets/VoiceWidgets/recorder_vm.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class RecorderView extends StatelessWidget {
   const RecorderView({super.key, required this.indexinList});
   final int indexinList;
 
-  final String path = "";
+  final String path = "sample.wav";
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<SoundRecorder>(
@@ -19,7 +21,13 @@ class RecorderView extends StatelessWidget {
             onTap: recorder.isProcessing
                 ? null
                 : () async {
-                    await recorder.toggleRecording(path);
+                    bool hasPermissions =
+                        await PermissionService.checkAndRequestMic();
+                    if (hasPermissions) {
+                      await recorder.toggleRecording(path);
+                    } else {
+                      openAppSettings();
+                    }
                   },
             height: 400, //ProjectWidgetEnums.recorderAudioWidgetHeigth.value,
             child: Column(

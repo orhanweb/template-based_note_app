@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'dart:ffi';
 
+import 'package:ekin_app/Product/Utils/Permissions/permissions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 
@@ -31,8 +31,8 @@ class SoundRecorder with ChangeNotifier {
   Future<void> _startRecording(String path) async {
     _changeProgessState();
     await _recorder.openRecorder();
-    await _recorder.startRecorder(toFile: path, codec: Codec.pcm16);
-
+    await _recorder.startRecorder(toFile: path, codec: Codec.defaultCodec);
+    PermissionService.checkAndRequestMic();
     _isRecording = true;
     _changeProgessState();
     // Süreyi izleme

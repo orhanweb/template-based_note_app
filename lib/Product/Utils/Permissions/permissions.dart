@@ -15,8 +15,17 @@ class PermissionService {
     bool isGrantedCamera = await _checkPermission(Permission.camera);
     if (!isGrantedCamera) {
       isGrantedCamera = await _requestPermission(Permission.camera);
-      return isGrantedCamera;
     }
     return isGrantedCamera;
+  }
+
+  static Future<bool> checkAndRequestMic() async {
+    bool isGrantedMic = await _checkPermission(Permission.microphone);
+
+    if (!(isGrantedMic)) {
+      isGrantedMic = await _requestPermission(Permission.microphone);
+    }
+
+    return isGrantedMic;
   }
 }

@@ -1,9 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ekin_app">
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-     <!-- Camera permission -->
+    <!-- Camera permission -->
     <uses-permission android:name="android.permission.CAMERA" />
-    <!-- Permission to read and write to external storage -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+   
+
 
     
        <application
